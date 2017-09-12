@@ -107,4 +107,4 @@ ENV/
 # mypy
 .mypy_cache/
 
-data/fra-eng.zip
+data/
