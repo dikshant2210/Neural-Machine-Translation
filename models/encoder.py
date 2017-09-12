@@ -4,7 +4,7 @@ import torch
 
 
 class EncoderRNN(nn.Module):
-    def __init__(self, input_size, hidden_size, n_layers=1, use_cuda=False):
+    def __init__(self, input_size, hidden_size, n_layers=1, use_cuda=True):
         super(EncoderRNN, self).__init__()
         self.input_size = input_size
         self.hidden_size = hidden_size

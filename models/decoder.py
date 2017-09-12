@@ -5,10 +5,10 @@ import torch.nn.functional as F
 
 
 class DecoderRNN(nn.Module):
-    def __init__(self, hidden_size, output_size, n_layer, use_cuda):
+    def __init__(self, hidden_size, output_size, n_layers=1, use_cuda=True):
         super(DecoderRNN, self).__init__()
         self.hidden_size = hidden_size
-        self.n_layer = n_layer
+        self.n_layers = n_layers
         self.use_cuda = use_cuda
 
         self.embedding = nn.Embedding(output_size, hidden_size)
