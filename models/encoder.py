@@ -27,4 +27,3 @@ class EncoderRNN(nn.Module):
             return result.cuda()
         else:
             return result
-
