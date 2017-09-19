@@ -177,7 +177,9 @@ if use_cuda:
     encoder1 = encoder1.cuda()
     decoder1 = decoder1.cuda()
 
-train_iters(encoder1, decoder1, 75000, print_every=5000)
+train_iters(encoder1, decoder1, 1000, print_every=5000)
 
 torch.save(encoder1, 'weights/encoder.pt')
 torch.save(decoder1, 'weights/decoder.pt')
+torch.save(input_lang, 'weights/input_lang.pt')
+torch.save(output_lang, 'weights/output_lang.pt')
