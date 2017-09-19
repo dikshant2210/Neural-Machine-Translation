@@ -17,7 +17,7 @@ class Lang:
     def add_word(self, word):
         if word not in self.word2index:
             self.word2index[word] = self.n_words
-            self.word2index[self.n_words] = word
+            self.index2word[self.n_words] = word
             self.word2count[word] = 1
             self.n_words += 1
         else:
