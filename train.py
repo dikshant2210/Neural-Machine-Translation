@@ -138,6 +138,37 @@ def train_iters(encoder, decoder, n_iters, print_every=1000, plot_every=100, lea
     show_plot(plot_losses)
 
 
+def evaluate(encoder, decoder, sentence, max_length=MAX_LENGTH):
+    input_variable = variable_from_sentence(input_lang, sentence)
+    input_length = input_variable.size()[0]
+    encoder_hidden = encoder.initHidden()
+
+    for ei in range(input_length):
+        encoder_output, encoder_hidden = encoder(input_variable[ei], encoder_hidden)
+
+    decoder_input = Variable(torch.LongTensor([[SOS_token]]))  # SOS
+    decoder_input = decoder_input.cuda() if use_cuda else decoder_input
+
+    decoder_hidden = encoder_hidden
+
+    decoded_words = []
+
+    for di in range(max_length):
+        decoder_output, decoder_hidden, decoder_attention = decoder(decoder_input, decoder_hidden)
+        topv, topi = decoder_output.data.topk(1)
+        ni = topi[0][0]
+        if ni == EOS_token:
+            decoded_words.append('<EOS>')
+            break
+        else:
+            decoded_words.append(output_lang.index2word[ni])
+
+        decoder_input = Variable(torch.LongTensor([[ni]]))
+        decoder_input = decoder_input.cuda() if use_cuda else decoder_input
+
+    return decoded_words
+
+
 hidden_size = 256
 encoder1 = EncoderRNN(input_lang.n_words, hidden_size)
 decoder1 = DecoderRNN(hidden_size, output_lang.n_words)
@@ -147,3 +178,6 @@ if use_cuda:
     decoder1 = decoder1.cuda()
 
 train_iters(encoder1, decoder1, 75000, print_every=5000)
+
+torch.save(encoder1, 'weights/encoder.pt')
+torch.save(decoder1, 'weights/decoder.pt')
